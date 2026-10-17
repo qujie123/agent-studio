@@ -1,0 +1,13 @@
+ALTER TABLE users ADD COLUMN display_name VARCHAR(80);
+ALTER TABLE users ADD COLUMN enabled BOOLEAN NOT NULL DEFAULT TRUE;
+ALTER TABLE users ADD COLUMN created_at TIMESTAMP WITH TIME ZONE;
+ALTER TABLE users ADD COLUMN last_login_at TIMESTAMP WITH TIME ZONE;
+ALTER TABLE users ADD COLUMN token_version BIGINT NOT NULL DEFAULT 0;
+ALTER TABLE model_settings ADD COLUMN owner_id BIGINT REFERENCES users(id);
+CREATE UNIQUE INDEX uk_model_settings_owner ON model_settings(owner_id);
+ALTER TABLE model_settings ADD CONSTRAINT ck_model_settings_scope CHECK ((id = 1 AND owner_id IS NULL) OR (owner_id IS NOT NULL AND id = owner_id + 1));
+ALTER TABLE tasks ADD COLUMN provider_settings_id BIGINT;
+ALTER TABLE tasks ADD COLUMN input_tokens BIGINT;
+ALTER TABLE tasks ADD COLUMN output_tokens BIGINT;
+ALTER TABLE chat_turns ADD COLUMN input_tokens BIGINT;
+ALTER TABLE chat_turns ADD COLUMN output_tokens BIGINT;

@@ -1,0 +1,55 @@
+Agent Studio · Windows 本地安装版 1.7.2
+
+安装与启动
+1. 双击安装包，按提示安装。支持 Windows 10/11 x64，按当前 Windows 用户安装。
+2. 双击桌面或开始菜单的 Agent Studio。程序使用内置 Java 和 H2 数据库，无需 IDEA、Maven、Node 或单独安装数据库。
+3. 首次启动会显示账号 local_admin 和随机生成的初始密码，点击“复制初始密码”，关闭窗口后在浏览器登录。
+4. 如需再次查看初始密码，在开始菜单选择“查看初始登录信息”。在网页改过密码后，应使用新密码。
+5. 界面在默认浏览器中打开；这是本地安装版，不是原生桌面编辑器，也不是在线托管服务。
+
+模型连接
+初始状态没有 API Key，使用本地模拟响应。到“模型服务 → API 接入与余额”配置自己的服务商、Key 和模型，才能获取真实模型回答。需要联网的模型由服务商计费；软件安装成功不等于已购买模型额度。
+
+数据和停止
+数据位于 %LOCALAPPDATA%\AgentStudio\workspace\data，独立于开发项目和安装目录。
+关闭网页不会停止后台服务；请通过开始菜单“停止 Agent Studio”关闭。停止前等待任务完成。
+服务仅监听 127.0.0.1，优先使用 18881 端口；被占用时使用 18882–18900 中的可用端口。
+重复点击启动会打开同一个工作台，不重复创建数据库。程序不会随 Windows 开机自动启动。
+卸载和覆盖安装保留数据；安装/升级/卸载前必须停止工作台。备份须在停止后复制整个 data 目录。
+密钥由 Windows DPAPI 保护，仅原 Windows 用户在原电脑可解密。不能只复制数据库到另一台电脑；不要删除 local-secrets.xml。
+这是单机工作台，不是集中托管的多租户服务器。电脑管理员、同账号恶意软件仍可能读取本机数据；请保护 Windows 账号并启用磁盘加密。
+
+Python 预览（可选）
+普通网页预览、下载、账号管理、对话和模型配置不需要 Docker。
+运行 Python Skills 或 Python 桌面预览，需要另行安装并启动 Docker Desktop（Linux 容器模式），然后在开始菜单选择“准备 Python 预览（需 Docker）”。首次准备要联网下载镜像，可能耗时且占用较多磁盘。
+缺少 Docker 时程序会明确提示，不会在宿主电脑直接执行生成的 Python 代码。安装包不安装 Docker、不改变防火墙，也不自动下载模型。
+
+故障处理
+通过开始菜单重新打开工作台，不必记住端口。
+启动失败请检查数据目录中的 desktop-stdout.log 和 desktop-stderr.log。不要公开日志、数据库、密钥文件或含密码的截图。
+安装包尚未使用商业代码签名证书，Windows 可能提示“未知发布者”。请核对可信来源和随包提供的 SHA-256，不要关闭系统安全软件。
+安装包和本地 JAR 不是不可逆向的加密容器。文件校验只能检测意外损坏，不能阻止控制本机的人修改程序。
+
+开源与许可
+源码与发布：https://github.com/qujie123/agent-studio
+原创代码采用 MIT 许可。安装目录内 LICENSE、docs/THIRD_PARTY_NOTICES.md 和 runtime/legal/ 保留项目及第三方许可。完整限制见 docs/LIMITATIONS.md。开源不等于已通过独立安全审计，不建议直接暴露到公网。
+
+English — Agent Studio 1.7.2 for Windows
+
+Install and start
+1. Run the setup executable. It installs for the current Windows user on Windows 10/11 x64; acceptance testing was performed on Windows 11 x64 only.
+2. Launch Agent Studio from the desktop or Start menu. Java and H2 are bundled; IDEA, Maven, Node and a separate database are not required.
+3. First launch displays local_admin and a random initial password. Copy it and sign in through the browser. The Start menu can show the initial credentials again; after changing the password in the UI, use the new one.
+4. This is a locally installed browser-based workspace, not a native desktop editor or a hosted cloud service. No real provider API key is bundled. Configure your provider, key and model under model services to obtain real responses. Providers may charge and receive your relevant input/context.
+
+Data and shutdown
+Data is stored in %LOCALAPPDATA%\AgentStudio\workspace\data, independently of the development project and installation directory. Closing the browser does not stop the backend: use the Stop Agent Studio Start-menu entry after tasks finish. The service listens only on 127.0.0.1, preferring port 18881 and falling back to 18882–18900. Repeated launches reuse the workspace. It does not start automatically with Windows.
+Stop before updating, uninstalling or backing up. Uninstall preserves data; copy the entire data directory for a cold backup. Windows DPAPI secrets require the original Windows user/computer. Do not delete local-secrets.xml or move only the database to another machine. Local administrators and malware running as your user may still access data; protect your Windows account and use disk encryption.
+
+Optional Python previews
+Ordinary chat, static previews, downloads and account/model settings do not require Docker. Python Skills and desktop recordings require separately installed, running Docker Desktop in Linux-container mode. Use the Start-menu Python preparation entry; the initial image download takes time and disk space. Without Docker, generated Python is not executed on the host. The installer does not install Docker, change firewall rules or download models. GUI previews are recordings, not interactive remote desktops.
+
+Troubleshooting and licensing
+Reopen through the Start menu rather than guessing the port. On startup failures inspect desktop-stdout.log and desktop-stderr.log in the data directory; never publish unsanitized logs, databases, secrets or password screenshots. The installer is unsigned and may show an unknown publisher warning. Verify the trusted source and release SHA-256; do not disable security software. JAR integrity checks detect accidental changes, not reverse engineering or modification by someone controlling the computer.
+Source and releases: https://github.com/qujie123/agent-studio
+Original code uses MIT. Preserve LICENSE, docs/THIRD_PARTY_NOTICES.md and runtime/legal/ when redistributing. See docs/LIMITATIONS.md for boundaries. No independent security-audit clearance is claimed; direct public internet exposure is not recommended.

@@ -1,0 +1,51 @@
+:root{--green:#171717;--line:#e5e5e5;--muted:#666666;background:#fafafa;color:#171717}
+aside{background:#111111;color:#f5f5f5;border:0;overflow-y:auto}
+aside .brand{color:#ffffff}aside .nav-label{color:#a3a3a3;margin-top:32px}
+nav{gap:5px}nav button{color:#d4d4d4;font-size:13px;min-height:42px}
+nav button:hover{background:#262626;color:#fff}nav button.active{background:#ffffff;color:#171717;box-shadow:inset 3px 0 #a3a3a3}
+.sidebar-bottom,.sidebar-bottom small{color:#a3a3a3}.connection-dot{background:#d4d4d4}
+header{background:#ffffffb8}.avatar{background:#eeeeee}.page-heading h1{letter-spacing:-.8px}.eyebrow{color:#666666}
+.card,.stat,.settings-form,.panel{box-shadow:0 3px 12px #00000005;border-color:var(--line)}
+.card:hover{border-color:#b3b3b3}.stat p{color:#666666}.stat strong{font-variant-numeric:tabular-nums;font-weight:600;color:#171717}.stat small{display:inline-block}
+.feature{background:linear-gradient(115deg,#171717,#333333)}.feature button{background:#ffffff}
+th{background:#f5f5f5;color:#525252}tbody tr:hover{background:#fafafa}.badge.ACTIVE,.badge.SUCCEEDED{background:#e5e5e5;color:#262626}
+.banner{background:#f5f5f5;border-color:#d4d4d4;color:#404040}
+.settings-grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(260px,1fr);gap:24px;align-items:start}
+.settings-form{max-width:none;min-width:0}.settings-form h2,.panel h2{font-size:20px;margin-bottom:20px}
+.panel{padding:28px;background:#fff;border:1px solid var(--line);border-radius:12px;min-width:0}.panel>button{margin:0 8px 14px 0}
+.balance-panel{border-top:3px solid #262626}.balance-panel>p:last-child{font-size:12px;margin:24px 0 0}
+.balance-panel>div{margin-top:24px}.balance-value{background:#f5f5f5;border-radius:10px;padding:20px;margin:15px 0}
+.balance-value small{color:#666666}.balance-value strong{display:block;font-size:32px;margin:12px 0;overflow-wrap:anywhere}.balance-value p{margin-bottom:0}
+.console-link{display:block;color:#171717;text-decoration:underline;margin:18px 0}
+.member-toolbar{flex-wrap:wrap}.member-toolbar input{flex:2;min-width:190px;max-width:360px}.member-toolbar select{flex:1;min-width:130px;max-width:180px}
+.member-identity{display:flex;flex-direction:column;gap:7px}.member-identity small{color:#666666}.member-actions{display:flex;flex-wrap:wrap;gap:8px}
+.member-actions button{margin:0}.pager{display:flex;gap:10px;justify-content:flex-end;align-items:center;margin:18px 0 24px;font-size:12px;color:#666666}
+input:focus,textarea:focus,select:focus{border-color:#525252;outline:2px solid #737373;outline-offset:2px}
+button:focus-visible,a:focus-visible{outline:2px solid #737373;outline-offset:3px}
+@media(max-width:1100px){.settings-grid{grid-template-columns:1fr}.balance-panel{max-width:none}}
+@media(max-width:760px){aside{overflow:visible}nav{padding-bottom:5px}nav button{flex-shrink:0}.panel,.settings-form{padding:20px}.settings-grid{gap:18px}.member-toolbar input,.member-toolbar select{max-width:none}.pager{flex-wrap:wrap}.stat strong{font-size:24px}#account-name{max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
+@media(prefers-reduced-motion:no-preference){button,.card{transition:background-color .15s,border-color .15s}}
+
+/* Only the current group is expanded; profile and appearance stay in the account menu. */
+.page-heading .eyebrow{display:none}
+#workspace-nav .nav-icon{width:18px;flex-shrink:0;text-align:center}
+#workspace-nav .section-toggle{width:100%;gap:10px}
+#workspace-nav .section-toggle.active[aria-controls]{background:#262626;color:#fff;box-shadow:none}
+#workspace-nav .nav-chevron{margin-left:auto;font-size:19px;line-height:1}
+#workspace-nav [aria-expanded=true] .nav-chevron{transform:rotate(90deg)}
+#workspace-nav .nav-children{display:grid;gap:3px;margin:5px 0 8px;padding-left:16px}
+#workspace-nav .nav-children button{width:100%;font-size:12px;min-height:36px;padding:9px 12px}
+.sidebar-heading{display:flex;align-items:center;justify-content:space-between;gap:10px}
+#navigation-toggle{display:none}
+.account{position:relative;display:block}
+.account summary{display:flex;align-items:center;gap:10px;cursor:pointer;list-style:none;padding:8px;border-radius:8px}
+.account summary::-webkit-details-marker{display:none}
+.account summary:focus-visible{outline:2px solid #737373;outline-offset:3px}
+.account-menu-panel{position:absolute;right:0;top:calc(100% + 8px);width:230px;padding:10px;background:var(--paper);color:var(--green);border:1px solid var(--line);border-radius:12px;box-shadow:0 12px 32px #00000026;z-index:20}
+.account-menu-panel button{display:block;width:100%;text-align:left;border:0;background:transparent;padding:11px 12px}
+.account-menu-panel button:hover{background:var(--cream)}
+#theme-control{margin:6px 0;padding:12px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font-weight:400;color:var(--muted)}
+#theme-control #theme-selector{width:100%;margin-top:8px;font-size:12px;padding:9px}
+.agent-management{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}
+.agent-management button{min-height:48px}
+@media(max-width:760px){#navigation-toggle{display:block;background:transparent;color:#fff;border-color:#525252;font-size:12px;padding:8px 12px}#workspace-nav{display:none;overflow:visible;margin-top:14px;padding-bottom:0}aside[data-navigation-open=true] #workspace-nav{display:grid}#workspace-nav button{white-space:normal;text-align:left}#workspace-nav .nav-children{padding-left:22px}.page-heading{margin-bottom:18px}.account summary{gap:7px}}

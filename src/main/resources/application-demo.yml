@@ -1,0 +1,27 @@
+server:
+  address: 127.0.0.1
+spring:
+  datasource:
+    url: jdbc:h2:mem:agent_demo;MODE=PostgreSQL;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  flyway:
+    enabled: false
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+app:
+  llm:
+    base-url: ""
+    api-key: ""
+    default-model: demo-model
+    protocol: OPENAI
+  sandbox:
+    enabled: ${SANDBOX_ENABLED:true}
+  jwt:
+    secret: ${random.uuid}${random.uuid}
+  bootstrap:
+    username: demo_admin
+    password: DemoOnly_2026!
+    email: demo@example.com

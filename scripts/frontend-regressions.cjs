@@ -1,0 +1,40 @@
+'use strict';
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm');
+const app=fs.readFileSync('src/main/resources/static/app.js','utf8');
+const studio=fs.readFileSync('src/main/resources/static/studio.js','utf8');
+async function main(){
+  let submit,resolve;
+  const el={append(){},replaceChildren(){},close(){},reset(){},textContent:''};
+  const state={user:{id:1,role:'ADMIN'},token:'token-a',loadSequence:0,register:false,taskFilter:'all',agents:[1],tasks:[1]};
+  const context={state,node:()=>el,$:()=>el,profileFields(){},inlineSubmit:(form,label,handler)=>submit=handler,
+    button:()=>el,date:()=>'',toast(){},api:()=>new Promise(r=>resolve=r),resetChat(){},sessionStorage:{removeItem(){}}};
+  vm.runInNewContext(app.slice(app.indexOf('function logout(){'),app.indexOf("$('#logout').addEventListener")),context);
+  vm.runInNewContext(studio.slice(studio.indexOf('function renderAccount('),studio.indexOf('function inlineSubmit(')),context);
+  context.renderAccount(state.user);
+  const pending=submit({});context.logout();
+  assert.equal(state.taskFilter,'mine');assert.equal(state.agents.length,0);assert.equal(state.tasks.length,0);
+  state.user={id:2,role:'USER',displayName:'B'};state.token='token-b';
+  resolve({id:1,role:'ADMIN',displayName:'A'});await pending;
+  assert.equal(state.user.id,2,'stale response must not replace a new login');
+  const apiContext={...context,translations:{}};
+  vm.runInNewContext(app.slice(app.indexOf('async function api('),app.indexOf('function logout(){')),apiContext);
+  let deliver,ready;const bodyReady=new Promise(r=>ready=r);apiContext.fetch=async()=>({status:200,ok:true,json:()=>new Promise(r=>{deliver=r;ready();})});
+  const response=apiContext.api('/users/me');await bodyReady;
+  state.sessionEpoch++;deliver({id:1});await assert.rejects(response,error=>error.stale===true);
+  let reject;apiContext.fetch=()=>new Promise((resolve,failure)=>reject=failure);
+  const network=apiContext.api('/users/me');state.sessionEpoch++;reject(new Error('network disconnected'));
+  await assert.rejects(network,error=>error.stale===true);
+  const roadmap=fs.readFileSync('src/main/resources/static/roadmap.js','utf8'),delta=[];
+  const streamState={token:'fixture-token',sessionEpoch:1},streamContext={state:streamState,TextDecoder,JSON,Error,logout(){throw new Error('Unexpected logout');}};
+  vm.runInNewContext(roadmap.slice(roadmap.indexOf('async function apiStream(')),streamContext);
+  const bytes=new TextEncoder().encode('event: delta\r\ndata: {"text":"青松"}\r\n\r\nevent: done\r\ndata: {"status":"SUCCEEDED"}\r\n\r\n');
+  streamContext.fetch=async()=>({ok:true,body:new ReadableStream({start(controller){for(const byte of bytes)controller.enqueue(Uint8Array.of(byte));controller.close();}})});
+  assert.equal((await streamContext.apiStream('/test',{},text=>delta.push(text))).status,'SUCCEEDED');
+  assert.deepEqual(delta,['青松'],'UTF-8 and CRLF fragments must parse once');
+  let releaseStream;
+  streamContext.fetch=async()=>({ok:true,body:new ReadableStream({start(controller){releaseStream=()=>{controller.enqueue(new TextEncoder().encode('event: delta\ndata: {"text":"stale"}\n\n'));controller.close();};}})});
+  const staleStream=streamContext.apiStream('/test',{},()=>{throw new Error('Stale delta must not paint');});
+  await Promise.resolve();streamState.sessionEpoch++;releaseStream();await assert.rejects(staleStream,error=>error.stale===true);
+  console.log('Frontend regressions passed: account/logout isolation, fragmented SSE and stale stream rejection.');
+}
+main().catch(error=>{console.error(error);process.exitCode=1;});

@@ -1,0 +1,122 @@
+@baseUrl = http://localhost:8080
+@modelName = REPLACE_WITH_PROVIDER_MODEL_ID
+# Local disposable demo only. These example credentials are public, not production passwords.
+
+### Register an agent creator (409 is expected when rerunning)
+POST {{baseUrl}}/api/users/register
+Content-Type: application/json
+
+{
+  "username": "creator01",
+  "password": "ExampleOnly_2026!",
+  "email": "creator01@example.com"
+}
+
+### Login and retain the creator token
+POST {{baseUrl}}/api/users/login
+Content-Type: application/json
+
+{
+  "username": "creator01",
+  "password": "ExampleOnly_2026!"
+}
+
+> {% client.global.set("creatorToken", response.body.token); %}
+
+### Current user (the response never contains a password)
+GET {{baseUrl}}/api/users/me
+Authorization: Bearer {{creatorToken}}
+
+### Create and activate an Agent
+POST {{baseUrl}}/api/agents
+Authorization: Bearer {{creatorToken}}
+Content-Type: application/json
+
+{
+  "name": "Course Assistant",
+  "description": "Answers questions about a course",
+  "systemPrompt": "Answer accurately and explain important terms.",
+  "modelName": "{{modelName}}",
+  "status": "ACTIVE"
+}
+
+> {% client.global.set("agentId", response.body.id); %}
+
+### List active Agents
+GET {{baseUrl}}/api/agents
+Authorization: Bearer {{creatorToken}}
+
+### Register a consumer (409 is expected when rerunning)
+POST {{baseUrl}}/api/users/register
+Content-Type: application/json
+
+{
+  "username": "consumer01",
+  "password": "ExampleOnly_2026!",
+  "email": "consumer01@example.com"
+}
+
+### Login as the consumer
+POST {{baseUrl}}/api/users/login
+Content-Type: application/json
+
+{
+  "username": "consumer01",
+  "password": "ExampleOnly_2026!"
+}
+
+> {% client.global.set("consumerToken", response.body.token); %}
+
+### Submit a task to the active Agent
+POST {{baseUrl}}/api/tasks
+Authorization: Bearer {{consumerToken}}
+Content-Type: application/json
+
+{
+  "agentId": {{agentId}},
+  "input": "Explain how JWT roles map to Spring Security authorities."
+}
+
+> {% client.global.set("taskId", response.body.id); %}
+
+### The consumer can inspect only their own tasks
+GET {{baseUrl}}/api/tasks
+Authorization: Bearer {{consumerToken}}
+
+### Execute using the configured model service (requires LLM_BASE_URL and LLM_API_KEY)
+POST {{baseUrl}}/api/tasks/{{taskId}}/execute
+Authorization: Bearer {{consumerToken}}
+
+### Inspect the persisted result
+GET {{baseUrl}}/api/tasks/{{taskId}}
+Authorization: Bearer {{consumerToken}}
+
+### Incoming tasks for the Agent creator
+GET {{baseUrl}}/api/tasks/assigned
+Authorization: Bearer {{creatorToken}}
+
+### OPTIONAL manual completion instead of execute; only PENDING tasks are accepted
+PATCH {{baseUrl}}/api/tasks/{{taskId}}/result
+Authorization: Bearer {{creatorToken}}
+Content-Type: application/json
+
+{
+  "output": "Prefix the role with ROLE_ and attach it as a GrantedAuthority.",
+  "success": true
+}
+
+### OPTIONAL recovery after a process crash; only RUNNING tasks past timeout + 30s
+POST {{baseUrl}}/api/tasks/{{taskId}}/recover
+Authorization: Bearer {{creatorToken}}
+
+### Admin overview (use a token whose database role is ADMIN)
+GET {{baseUrl}}/api/admin/users
+Authorization: Bearer {{adminToken}}
+
+###
+GET {{baseUrl}}/api/admin/agents
+Authorization: Bearer {{adminToken}}
+
+###
+GET {{baseUrl}}/api/admin/tasks
+Authorization: Bearer {{adminToken}}

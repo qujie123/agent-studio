@@ -1,0 +1,52 @@
+HELP.md
+target/
+node_modules/
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+# Local credentials
+.env
+.env.*
+!.env.example
+http-client.private.env.json
+data/
+backups/
+
+# Never publish runtime secrets or generated installer payloads.
+*.mv.db
+*.trace.db
+*.pem
+*.key
+*.p12
+*.pfx
+local-secrets.xml
+*.log

@@ -1,0 +1,1 @@
+# Tkinter 为 Python 自带图形模块，无 pip 依赖。Linux 需要 python3-tk。

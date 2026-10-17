@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: agent-platform
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5433/agent_platform}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: ${SHOW_SQL:false}
+    open-in-view: false
+  flyway:
+    enabled: true
+    baseline-on-migrate: ${FLYWAY_BASELINE_ON_MIGRATE:false}
+    baseline-version: 0
+    clean-disabled: true
+
+app:
+  sandbox:
+    enabled: ${SANDBOX_ENABLED:false}
+  settings:
+    encryption-key: ${SETTINGS_ENCRYPTION_KEY:${app.jwt.secret}}
+  worker:
+    enabled: ${WORKER_ENABLED:true}
+    concurrency: ${WORKER_CONCURRENCY:3}
+    poll-ms: 1000
+  bootstrap:
+    username: ${ADMIN_USERNAME:}
+    password: ${ADMIN_PASSWORD:}
+    email: ${ADMIN_EMAIL:}
+  jwt:
+    secret: ${JWT_SECRET}
+    expiration-ms: ${JWT_EXPIRATION_MS:86400000}
+  llm:
+    protocol: ${LLM_PROTOCOL:OPENAI}
+    default-model: ${LLM_DEFAULT_MODEL:}
+    base-url: ${LLM_BASE_URL:}
+    api-key: ${LLM_API_KEY:}
+    timeout-seconds: ${LLM_TIMEOUT_SECONDS:60}

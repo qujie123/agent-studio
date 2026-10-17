@@ -1,0 +1,6 @@
+{
+  "name": "agent-platform-browser-tests",
+  "private": true,
+  "scripts": { "test:ui": "node scripts/browser-providers.cjs && node scripts/browser-workspace.cjs && node scripts/browser-theme.cjs && node scripts/browser-smoke.cjs && node scripts/browser-features.cjs && node scripts/browser-chat.cjs && node scripts/browser-accounts.cjs && node scripts/browser-upgrade.cjs && node scripts/browser-productivity.cjs && node scripts/browser-roadmap.cjs && node scripts/browser-artifacts.cjs", "test:ui:without-docker": "node scripts/browser-providers.cjs && node scripts/browser-workspace.cjs && node scripts/browser-theme.cjs && node scripts/browser-smoke.cjs && node scripts/browser-features.cjs && node scripts/browser-chat.cjs && node scripts/browser-accounts.cjs && node scripts/browser-upgrade.cjs && node scripts/browser-productivity.cjs && node scripts/browser-artifacts.cjs", "test:frontend": "node scripts/frontend-regressions.cjs" },
+  "devDependencies": { "playwright": "1.62.1" }
+}

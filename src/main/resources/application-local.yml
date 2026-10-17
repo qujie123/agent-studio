@@ -1,0 +1,23 @@
+# Persistent single-machine workspace. Use PostgreSQL for shared/production deployments.
+server:
+  address: 127.0.0.1
+spring:
+  datasource:
+    url: jdbc:h2:file:./data/agent-local;MODE=PostgreSQL;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password: ${LOCAL_DB_PASSWORD}
+    driver-class-name: org.h2.Driver
+  flyway:
+    enabled: true
+    locations: classpath:db/local
+    baseline-on-migrate: false
+  jpa:
+    hibernate:
+      ddl-auto: validate
+app:
+  sandbox:
+    enabled: ${SANDBOX_ENABLED:true}
+  bootstrap:
+    username: local_admin
+    password: ${LOCAL_ADMIN_PASSWORD}
+    email: local-admin@example.com

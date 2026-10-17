@@ -1,0 +1,22 @@
+spring:
+  flyway:
+    enabled: false
+  application:
+    name: agent-platform-test
+  datasource:
+    url: jdbc:h2:mem:agent_platform;MODE=PostgreSQL;DB_CLOSE_DELAY=-1
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    open-in-view: false
+
+app:
+  worker:
+    enabled: false
+  jwt:
+    secret: testAgentPlatformJwtSecretKey2026TestAgentPlatformJwtSecretKey
+    expiration-ms: 3600000
