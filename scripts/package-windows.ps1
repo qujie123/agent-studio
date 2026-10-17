@@ -53,7 +53,7 @@ try {
     New-Item -ItemType Directory -Path $release -Force | Out-Null
     $setupName = "AgentStudio-$Version-windows-x64-setup.exe"
     Copy-Item -LiteralPath (Join-Path $output $setupName) -Destination (Join-Path $release $setupName) -Force
-    Copy-Item -LiteralPath (Join-Path $payload '使用说明.txt') -Destination $release -Force
+    Copy-Item -LiteralPath (Join-Path $payload '使用说明.txt') -Destination (Join-Path $release 'INSTALL_GUIDE.txt') -Force
     ((Get-FileHash -LiteralPath (Join-Path $release $setupName) -Algorithm SHA256).Hash + '  ' + $setupName) | Set-Content -LiteralPath (Join-Path $release 'SHA256SUMS.txt') -Encoding ASCII
     @{payload=$payload;installer=(Join-Path $release $setupName);version=$Version;jarSha256=$manifest.jarSha256} | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $project 'target\windows-package.json') -Encoding UTF8
     Write-Host "Installer ready: $(Join-Path $release $setupName)"

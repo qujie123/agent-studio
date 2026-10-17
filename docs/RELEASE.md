@@ -11,7 +11,7 @@
 - 补齐中文在前、英文在后的说明、MIT 和第三方许可；修正首次构建测试脚本的目录/依赖路径问题。
 - 源码与二进制分开发布，不含个人数据库、备份、密钥或聊天记录。
 
-下载 `AgentStudio-1.7.2-windows-x64-setup.exe`，对照 `SHA256SUMS.txt` 校验。`使用说明.txt` 包含安装、启动、停止与备份步骤。OpenJDK 对应源码单独提供；它不是运行程序所需的第二个安装包。
+下载 `AgentStudio-1.7.2-windows-x64-setup.exe`，对照 `SHA256SUMS.txt` 校验。`INSTALL_GUIDE.txt` 包含中英双语的安装、启动、停止与备份步骤。OpenJDK 对应源码单独提供；它不是运行程序所需的第二个安装包。
 
 已通过 126 项 Java 全量测试和 11 个浏览器专项；详细安装器与导出验证见仓库 [验证记录](https://github.com/qujie123/agent-studio/blob/main/docs/VERIFICATION.md)。
 
@@ -28,7 +28,7 @@ Bring agents, Skills, multi-turn conversations and downloadable projects into on
 - Chinese-first/English-following documentation, MIT and third-party notices are supplied. Fresh-clone test-directory and machine-specific dependency-path issues are corrected.
 - Source and binaries are distributed separately, without personal databases, backups, secrets or conversation records.
 
-Download `AgentStudio-1.7.2-windows-x64-setup.exe` and verify it using `SHA256SUMS.txt`. The bilingual `使用说明.txt` covers installation, startup, shutdown and backup. Matching OpenJDK source is supplied separately; it is not another installer required to run the application.
+Download `AgentStudio-1.7.2-windows-x64-setup.exe` and verify it using `SHA256SUMS.txt`. The bilingual `INSTALL_GUIDE.txt` covers installation, startup, shutdown and backup. Matching OpenJDK source is supplied separately; it is not another installer required to run the application.
 
 All 126 Java tests and 11 browser suites passed. See the repository's [verification record](https://github.com/qujie123/agent-studio/blob/main/docs/VERIFICATION.md) for installer/export checks.
 
